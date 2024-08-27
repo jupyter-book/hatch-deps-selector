@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hatch-deps-selector"
+dynamic = ["version"]
+description = 'Select variants of your dependencies with environment variables'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Angus Hollands", email = "goosey15@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/jupyter-book/hatch-deps-selector#readme"
+Issues = "https://github.com/jupyter-book/hatch-deps-selector/issues"
+Source = "https://github.com/jupyter-book/hatch-deps-selector"
+
+[tool.hatch.version]
+path = "src/hatch_deps_selector/__about__.py"
