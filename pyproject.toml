@@ -33,3 +33,6 @@ Source = "https://github.com/jupyter-book/hatch-deps-selector"
 
 [tool.hatch.version]
 path = "src/hatch_deps_selector/__about__.py"
+
+[project.entry-points.hatch]
+selector = "hatch_deps_selector.hooks"

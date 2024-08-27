@@ -29,18 +29,29 @@ class DependenciesSelectorHook(BuildHookInterface):
                 raise TypeError(f"Option `variants` for build hook `{self.PLUGIN_NAME}` must be a table")
 
             self.__variants = variants
-        return self.variants
+        return self.__variants
 
 
     def initialize(self, version, build_data):
         # Allow variant to be unset or empty
-        variant = os.environ.get(self.env_var)
-        if not variant:
+        variant_name = os.environ.get(self.env_var)
+        if not variant_name:
             return
 
-        # But if defined, should be valid
-        dependencies = self.variants.get(variant, [])
-        if dependencies is None:
-            raise ValueError(f"Variant `{variant}` not found for build hook `{self.PLUGIN_NAME}`")
+        # But if defined, variant should exist in config
+        try:
+            variant = self.variants[variant_name]
+        except KeyError:
+            raise ValueError(f"Variant `{variant}` not found for build hook `{self.PLUGIN_NAME}`") from None
+
+        # And variant should be a table
+        if not isinstance(variant, dict):
+            raise TypeError(f"Option `variants.{variant_name}` for build hook `{self.PLUGIN_NAME}` must be a table")
+        # Dependencies do not need to be defined
+        try:  
+            dependencies = variant["dependencies"]
+        except KeyError:
+            raise ValueError(f"Variant `{variant}` not found for build hook `{self.PLUGIN_NAME}`") from None
+
         build_data["dependencies"].extend(dependencies)
 
