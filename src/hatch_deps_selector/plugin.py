@@ -10,6 +10,7 @@ class DependenciesSelectorHook(BuildHookInterface):
 
         self.__env_var = None
         self.__variants = None
+        self.__default_variant = None
 
     @property
     def env_var(self):
@@ -31,10 +32,23 @@ class DependenciesSelectorHook(BuildHookInterface):
             self.__variants = variants
         return self.__variants
 
+    @property
+    def default_variant(self):
+        if self.__default_variant is None:
+            default_variant = self.config.get("default-variant", {})
+            if not isinstance(default_variant, str):
+                raise TypeError(f"Option `default-variant` for build hook `{self.PLUGIN_NAME}` must be a string")
+
+            self.__default_variant = default_variant
+        return self.__default_variant
+
 
     def initialize(self, version, build_data):
-        # Allow variant to be unset or empty
-        variant_name = os.environ.get(self.env_var)
+        # If variant is not set, use default variant
+        # Otherwise, respect the set value
+        variant_name = os.environ.get(self.env_var, self.default_variant)
+
+        # If the variant name is empty or None, assume we don't want a variant
         if not variant_name:
             return
 
