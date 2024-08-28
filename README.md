@@ -31,16 +31,21 @@ The [build plugin](https://hatch.pypa.io/latest/plugins/build-hook/reference/) n
 
     ```toml
     [tool.hatch.build.hooks.selector]
+    default-variant = "foo"
     env-var = <ENV-VAR-NAME>
     
-    [tool.hatch.build.hooks.selector.variants.<VARIANT>]
+    [tool.hatch.build.hooks.selector.variants.foo]
     dependencies = ["numpy"]
     ```
 
 - ***hatch.toml***
 
     ```toml
-    [build.hooks.selector.variants.PYPI]
+    [build.hooks.selector]
+    default-variant = "foo"
+    env-var = <ENV-VAR-NAME>
+
+    [build.hooks.selector.variants.foo]
     dependencies = ["numpy"]
     ```
 
@@ -50,10 +55,11 @@ This might be used to only pull in certain dependencies when building for PyPI v
 
 ### Build plugin options
 
-| Option     | Type   | Default                  | Description                                            |
-|------------|--------|--------------------------|--------------------------------------------------------|
-| `env-var`  | `str`  | `HATCH_SELECTOR_VARIANT` | Name of environment variable to control built variant. |
-| `variants` | `dict` | `{}`                     | Table of variant-tables with `dependencies` field.     |
+| Option            | Type   | Default                  | Description                                                      |
+|-------------------|--------|--------------------------|------------------------------------------------------------------|
+| `default-variant` | `str`  | None                     | Name of default variant to use if environment variable is unset. |
+| `env-var`         | `str`  | `HATCH_SELECTOR_VARIANT` | Name of environment variable to control built variant.           |
+| `variants`        | `dict` | `{}`                     | Table of variant-tables with `dependencies` field.               |
 
 ## License
 
