@@ -42,7 +42,7 @@ class DependenciesSelectorHook(BuildHookInterface):
         try:
             variant = self.variants[variant_name]
         except KeyError:
-            raise ValueError(f"Variant `{variant}` not found for build hook `{self.PLUGIN_NAME}`") from None
+            raise ValueError(f"Variant `{variant_name}` not found for build hook `{self.PLUGIN_NAME}`") from None
 
         # And variant should be a table
         if not isinstance(variant, dict):
@@ -51,7 +51,7 @@ class DependenciesSelectorHook(BuildHookInterface):
         try:  
             dependencies = variant["dependencies"]
         except KeyError:
-            raise ValueError(f"Variant `{variant}` not found for build hook `{self.PLUGIN_NAME}`") from None
+            raise ValueError(f"Option `dependencies` not found in table `variants.{variant_name}` for build hook `{self.PLUGIN_NAME}`") from None
 
         build_data["dependencies"].extend(dependencies)
 
